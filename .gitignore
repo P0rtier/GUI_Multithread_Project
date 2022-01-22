@@ -1,0 +1,10 @@
+.idea
+.idea_modules
+.settings/
+.classpath
+.project
+.DS_Store
+*.swp
+bin
+build
+.gradle
