@@ -18,8 +18,10 @@ public class App {
                 + "OPTIONS:\n"
                 + "\t--min-new-claimer-time N\tN > 0\n"
                 + "\t--max-new-claimer-time N\tN >= --min-new-claimer-time\n"
-                + "\t--min-new-calimers N\t\tN > 0\n"
-                + "\t--max-new-claimers N\t\tN >= --min-new-claimers\n";
+                + "\t--min-new-claimers N\t\tN > 0\n"
+                + "\t--max-new-claimers N\t\tN >= --min-new-claimers\n"
+                + "\t--min-wicket-delay N\t\tN >= 0\n"
+                + "\t--max-wicket-delay N\t\tN > --min-wicket-delay\n";
     System.out.print(help);
 
   }
@@ -41,10 +43,12 @@ public class App {
     }
 
     Map<String, SetConfigEntry> configSetUp = Map.ofEntries(
-      entry("min-new-claimer-time", (value) -> config.setMinNewClaimerTime(value)),
-      entry("max-new-claimer-time", (value) -> config.setMinNewClaimerTime(value)),
-      entry("min-new-calimers", (value) -> config.setMinNewClaimers(value)),
-      entry("max-new-claimers", (value) -> config.setMaxNewClaimers(value)));
+      entry("min-new-claimer-time", config::setMinNewClaimerTime),
+      entry("max-new-claimer-time", config::setMinNewClaimerTime),
+      entry("min-new-calimers", config::setMinNewClaimers),
+      entry("max-new-claimers", config::setMaxNewClaimers),
+      entry("min-wicket-delay", config::setMinWicketDelay),
+      entry("max-wicket-delay", config::setMaxWicketDelay));
 
     for (Map.Entry<String, SetConfigEntry> entry : configSetUp.entrySet())
       if (!App.setConfigEntry(entry.getValue(), parser, entry.getKey()))
@@ -66,9 +70,7 @@ public class App {
     javax.swing.SwingUtilities.invokeLater(new Runnable() {
       public void run() {
         try {
-          System.out.println("Running app...");
-          Office office = new Office(config);
-          office.setVisible(true);
+          jpsim.Office office = new jpsim.Office(config);
         } catch (Exception e) {
           e.printStackTrace(System.err);
         }

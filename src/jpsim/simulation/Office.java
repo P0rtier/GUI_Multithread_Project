@@ -5,26 +5,25 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import jpsim.simulation.Config;
+import jpsim.simulation.Kanwa;
 
 public class Office extends JFrame {
   final private Config config;
-  private JPanel content;
+  public Kanwa content;
 
   Office(final Config config) throws HeadlessException {
     this.config = config;
     setWindow();
+    pack();
+    setVisible(true);
   }
 
-  private void setWindow() {
+  private synchronized void setWindow() {
     setTitle("Kolejka w urzędzie");
-
+    content = new Kanwa(config);
 
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setSize(960, 640);
-
-    content = new JPanel();
-    content.setBorder(new EmptyBorder(5, 5, 5, 5));
-    setContentPane(content);
-    content.setLayout(null);
+    setResizable(false);
+    this.add(content);
   }
 }
