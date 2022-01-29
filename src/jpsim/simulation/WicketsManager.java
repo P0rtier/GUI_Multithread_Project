@@ -1,7 +1,5 @@
 package jpsim.simulation;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;

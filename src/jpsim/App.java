@@ -1,12 +1,15 @@
 package jpsim;
 
+import java.awt.HeadlessException;
 import java.util.Map;
 import static java.util.Map.entry;
+import javax.swing.JFrame;
 
 import jpsim.simulation.Config;
+import jpsim.simulation.Office;
 import jpsim.utils.Args;
 
-public class App {
+public class App extends JFrame {
   @FunctionalInterface
   interface SetConfigEntry {
     public boolean set(final String value);
@@ -45,7 +48,7 @@ public class App {
     Map<String, SetConfigEntry> configSetUp = Map.ofEntries(
       entry("min-new-claimer-time", config::setMinNewClaimerTime),
       entry("max-new-claimer-time", config::setMinNewClaimerTime),
-      entry("min-new-calimers", config::setMinNewClaimers),
+      entry("min-new-claimers", config::setMinNewClaimers),
       entry("max-new-claimers", config::setMaxNewClaimers),
       entry("min-wicket-delay", config::setMinWicketDelay),
       entry("max-wicket-delay", config::setMaxWicketDelay));
@@ -62,6 +65,23 @@ public class App {
     return true;
   }
 
+  private Office office;
+
+  App(final Config config) throws HeadlessException {
+    setWindow(config);
+    pack();
+    setVisible(true);
+  }
+
+  private synchronized void setWindow(final Config config) {
+    setTitle("Kolejka w urzędzie");
+    office = new Office(config);
+
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setResizable(false);
+    add(office);
+  }
+
   public static void main(String[] args) {
     Config config = new Config();
     if (!App.parseArgs(args, config))
@@ -70,7 +90,7 @@ public class App {
     javax.swing.SwingUtilities.invokeLater(new Runnable() {
       public void run() {
         try {
-          jpsim.Office office = new jpsim.Office(config);
+          App office = new App(config);
         } catch (Exception e) {
           e.printStackTrace(System.err);
         }
