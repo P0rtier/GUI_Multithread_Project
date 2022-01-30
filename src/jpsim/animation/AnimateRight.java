@@ -2,7 +2,7 @@ package jpsim.animation;
 
 public class AnimateRight extends Animation {
   public AnimateRight() {
-    super(845, 200);
+    super(820, 200);
   }
 
   @Override

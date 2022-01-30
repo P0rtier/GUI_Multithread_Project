@@ -2,7 +2,7 @@ package jpsim.animation;
 
 public class AnimateLeft extends Animation {
   public AnimateLeft() {
-    super(65, 200);
+    super(40, 200);
   }
 
   @Override

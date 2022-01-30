@@ -1,8 +1,8 @@
 package jpsim.animation;
 
 public abstract class Animation implements Animate {
-  protected int x = 455, y = 590;
-  private int wicketX, wicketY;
+  protected int x = 430, y = 590;
+  private final int wicketX, wicketY;
 
   Animation(int wicketX, int wicketY) {
     this.wicketX = wicketX;

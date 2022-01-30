@@ -2,7 +2,7 @@ package jpsim.animation;
 
 public class AnimateForward extends Animation {
   public AnimateForward() {
-    super(455, 200);
+    super(430, 200);
   }
 
   @Override

@@ -5,8 +5,8 @@ public class Config {
   private int maxNewClaimerTime = 6000;
   private int minNewClaimers = 1;
   private int maxNewClaimers = 2;
-  private int minWicketDelay = 8000;
-  private int maxWicketDelay = 13000;
+  private int minWicketDelay = 2000;
+  private int maxWicketDelay = 5000;
 
   public Config() {}
 

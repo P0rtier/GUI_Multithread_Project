@@ -9,21 +9,26 @@ import jpsim.animation.*;
 
 public class Office extends JPanel implements ActionListener {
   private final Claimer[][] claimers = new Claimer[3][2];
-  private final Timer timer;
-  private volatile WicketsManager manager;
+  private final WicketsManager manager;
   private final JLabel counterLabel = new JLabel("Waiting: 0", SwingConstants.CENTER);
+  private final JLabel handledLabel = new JLabel("Handled: 0", SwingConstants.CENTER);
+  private int handledCounter = 0;
+  private final Image bankImage = new ImageIcon("assets/bankImage.png").getImage();
 
   public Office(Config config) {
     super();
     createClaimers();
     manager = new WicketsManager(config);
+    handledLabel.setBounds(350, 0, 100, 50);
     counterLabel.setBounds(350, 590, 100, 50);
+    handledLabel.setForeground(Color.BLACK);
     counterLabel.setForeground(Color.BLACK);
     add(counterLabel);
+    add(handledLabel);
     setPreferredSize(new Dimension(960, 640));
     setBackground(Color.WHITE);
     setLayout(null);
-    timer = new Timer(100, this);
+    Timer timer = new Timer(100, this);
     timer.start();
   }
 
@@ -39,16 +44,15 @@ public class Office extends JPanel implements ActionListener {
   public void paint(Graphics g) {
     super.paint(g);
     Graphics2D g2D = (Graphics2D) g;
-    g2D.setColor(Color.GREEN);
-    g2D.fillRect(65, 200, 50, 50);
-    g2D.fillRect(455, 200, 50, 50);
-    g2D.fillRect(845, 200, 50, 50);
-    g2D.setColor(Color.BLUE);
     for (Claimer[] pair : claimers)
       for (Claimer claimer : pair)
         claimer.draw(g2D);
+    g2D.drawImage(bankImage,40,200,100,120,null);
+    g2D.drawImage(bankImage,430,200,100,120,null);
+    g2D.drawImage(bankImage,820,200,100,120,null);
     g2D.setColor(Color.BLACK);
     counterLabel.setText("Waiting: " + manager.getCounter().toString());
+    handledLabel.setText("Handled: " + handledCounter);
   }
 
   @Override
@@ -70,6 +74,7 @@ public class Office extends JPanel implements ActionListener {
           pair[0] = pair[1];
           pair[1] = tmp;
           manager.scheduleWaitTask(i);
+          handledCounter += 1;
         }
         continue;
       }
